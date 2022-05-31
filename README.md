@@ -21,7 +21,7 @@ When the player's mouth is open the distance increases, and when he is a certain
 
 ## Operating Instructions:
 1. Download all the files.  
-2. Install "mediapipe", "cvzone".   
+2. Install "mediapipe", "cvzone" and "pygame".   
 3. Put the files in the same folder.  
 4. In the command line, write the following command:  
 5. "python main.py"  
