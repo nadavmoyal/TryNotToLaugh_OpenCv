@@ -1,3 +1,4 @@
+#Imports
 import cv2
 import cvzone
 from cvzone.FaceMeshModule import FaceMeshDetector
@@ -5,13 +6,14 @@ import time
 import pygame
 from pygame import mixer
 
+# Initialization of the videos and the face detector:
 cap = cv2.VideoCapture(0)
 failsCap = cv2.VideoCapture("fails.mp4")
 detector = FaceMeshDetector(maxFaces=1)
-name = cv2.imread("name.png", cv2.IMREAD_UNCHANGED)
+name = cv2.imread("lightName2.png", cv2.IMREAD_UNCHANGED)
 
-# variables
-mouthPoints = [78, 191, 80, 81, 82, 13, 14, 312, 311, 402, 310, 317, 318, 415, 324, 308, 324, 87, 178, 95]
+# Variables
+mouthPoints = [78, 191, 80, 81, 82, 13, 14, 312, 311, 402, 310, 317, 318, 415, 324, 308, 324, 87, 178, 95,88]
 ratioList = []
 counter = 0
 total = 0
@@ -20,15 +22,23 @@ once = True
 gameOver = False
 start = time.time()
 
+# Playing the background audio:
+pygame.init()
+pygame.mixer.init()
+failsAudio = mixer.Sound('backgroundFails.wav')
+failsAudio.play()
 
+# Playing the "you lose" and "game over" sounds:
 def game_over_sound(once):
-    pygame.init()
-    pygame.mixer.init()
-    gos = mixer.Sound('gameOverSound.wav')
-    gos.play()
+    failsAudio.stop()
+    lose = mixer.Sound('LoseSoundEffect.wav')
+    lose.play()
+    time.sleep(1)
+    gameOverSound = mixer.Sound('gameOverSound.wav')
+    gameOverSound.play()
     return False
 
-
+# Displaying the score when the game has ended:
 def game_over_screen():
     cvzone.putTextRect(img, "Game Over", [100, 200], scale=5, thickness=5, offset=10, colorR=(0, 0, 0))
     cvzone.putTextRect(img, f'Your Score:{total}', [85, 300], scale=4, thickness=4, offset=10, colorR=(0, 0, 0))
@@ -54,6 +64,8 @@ while True:
             face = faces[0]
             for index in mouthPoints:
                 cv2.circle(img, face[index], 3, (0, 200, 0))
+
+
             # laugh detector algorithm
             MiddleUp = face[13]
             MiddleDown = face[14]
@@ -66,27 +78,31 @@ while True:
             if len(ratioList) > 3:
                 ratioList.pop(0)
             ratioAvg = sum(ratioList) / len(ratioList)
-
+            # Check if the person is laughing, and reduce the HP scale.
+            # If the ratioAvg is more than 10 it's mean that his mouth is open -> laughing.
             if ratioAvg >= 10 and counter == 0:
-                i += 15
-                if (i >= 280) and gameOver is False:
+                i += 2
+                # if i % 5 == 0:
+                cvzone.putTextRect(img, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=4, scale=2, thickness=2)
+
+                if (i >= 245) and gameOver is False:
                     # In "Game Over" case:
                     end = time.time()  # Stop the time for calculate the score.
                     total = round(end - start, 2)
                     total = int(total * 5.3)
-                    gameOver = True
-                counter = 1
+                    gameOver = True    # End the game.
+                # counter = 1
+
             # Displaying the "Laugh Alert".
-            if counter != 0 and gameOver is False:
-                counter += 1
-                if counter > 5:
-                    counter = 0
-                    cvzone.putTextRect(img, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=4, scale=2, thickness=2)
+            # if counter != 0 and gameOver is False:
+            #     counter += 1
+            #     if counter > 5:
+            #         counter = 0
+            #         cvzone.putTextRect(img, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=4, scale=2,thickness=2)
 
             # Drawing the HP scale.
-            cv2.line(img, [50, 50], [300 - i, 50], (0, 0, 255), 30)
-            cvzone.putTextRect(img, f'HP:', (10, 60),
-                               scale=2, colorR=(0, 0, 255), offset=5, thickness=2)
+            cv2.line(img, [50, 50], [300 - i, 50], (0, 0, 255), 27)
+            cvzone.putTextRect(img, f'HP:', (10, 60),scale=2, colorR=(0, 0, 255), offset=4, thickness=2)
 
             # Initialization of the resolution and background:
             img = cv2.resize(img, (720, 480))
