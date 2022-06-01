@@ -8,9 +8,9 @@ from pygame import mixer
 
 # Initialization of the videos and the face detector:
 cap = cv2.VideoCapture(0)
-failsCap = cv2.VideoCapture("failsVideo.mp4")
+failsCap = cv2.VideoCapture("sources/failsVideo.mp4")
 detector = FaceMeshDetector(maxFaces=1)
-name = cv2.imread("lightName2.png", cv2.IMREAD_UNCHANGED)
+name = cv2.imread("sources/lightName2.png", cv2.IMREAD_UNCHANGED)
 
 # Variables
 mouthPoints = [78, 191, 80, 81, 82, 13, 14, 312, 311, 402, 310, 317, 318, 415, 324, 308, 324, 87, 178, 95, 88]
@@ -24,17 +24,17 @@ start = time.time()
 # Playing the background audio:
 pygame.init()
 pygame.mixer.init()
-failsAudio = mixer.Sound('failsAudio.wav')
+failsAudio = mixer.Sound('sources/failsAudio.wav')
 failsAudio.play()
 
 
 # Playing the "you lose" and "game over" sounds:
 def game_over_sound(onceRound):
     failsAudio.stop()
-    lose = mixer.Sound('LoseSoundEffect.wav')
+    lose = mixer.Sound('sources/LoseSoundEffect.wav')
     lose.play()
     time.sleep(1)
-    gameOverSound = mixer.Sound('gameOverSound.wav')
+    gameOverSound = mixer.Sound('sources/gameOverSound.wav')
     gameOverSound.play()
     return False
 
