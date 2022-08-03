@@ -21,7 +21,7 @@ And when it hits a certain distance we know the player is laughing.
 
 ## Operating Instructions:
 1. Download all the files.  
-2. Install "cv2", "cvzone" and "pygame".   
+2. Install "cv2", "numpy", "cvzone" and "pygame".   
 3. Put the files in the same folder.  
 4. In the command line, write the following command:  
 5. "python main.py"  
