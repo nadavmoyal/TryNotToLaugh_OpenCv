@@ -17,7 +17,7 @@ mouthPoints = [78, 191, 80, 81, 82, 13, 14, 312, 311, 402, 310, 317, 318, 415, 3
 ratioList = []
 total = 0
 i = 0
-onceRound = True
+firstRound = True
 gameOver = False
 winner = False
 start = time.time()
@@ -29,35 +29,38 @@ failsAudio = mixer.Sound('sources/failsAudio.wav')
 failsAudio.play()
 
 
-def you_win_text():
-    cvzone.putTextRect(img, "You win", [30, 300], scale=9, thickness=8, offset=13, colorR=(0, 0, 0))
+def you_win_screen():
+    cvzone.putTextRect(fails, "You win", [150, 330], scale=10, thickness=12, offset=15, colorR=(0, 0, 0))
+    f = cv2.resize(fails, (1280, 720))
+    cv2.imshow("FailsVideo", f)
 
-
-def you_win_sound(onceRound):
+def you_win_sound():
     failsAudio.stop()
     lose = mixer.Sound('sources/victory.wav')
     lose.play()
     time.sleep(1)
-    gameOverSound = mixer.Sound('sources/youWin.wav')
-    gameOverSound.play()
+    YouWinSound = mixer.Sound('sources/youWin.wav')
+    YouWinSound.play()
     return False
 
 
 # Playing the "you lose" and "game over" sounds:
-def game_over_sound(onceRound):
+def game_over_sound():
     failsAudio.stop()
     lose = mixer.Sound('sources/LoseSoundEffect.wav')
     lose.play()
     time.sleep(1)
-    gameOverSound = mixer.Sound('sources/gameOverSound.wav')
-    gameOverSound.play()
+    mixer.Sound('sources/gameOverSound.wav').play()
     return False
 
 
 # Displaying the score when the game has ended:
 def game_over_screen():
-    cvzone.putTextRect(img, "Game Over", [100, 200], scale=5, thickness=5, offset=10, colorR=(0, 0, 0))
-    cvzone.putTextRect(img, f'Your Score:{total}', [85, 300], scale=4, thickness=4, offset=10, colorR=(0, 0, 0))
+    cvzone.putTextRect(fails, "Game Over", [160, 250], scale=7, thickness=7, offset=10, colorR=(0, 0, 0))
+    cvzone.putTextRect(fails, f'Your Score:{total}', [115, 360], scale=6, thickness=6, offset=10, colorR=(0, 0, 0))
+    f = cv2.resize(fails, (1280, 720))
+    cv2.imshow("FailsVideo", f)
+
 
 
 while True:
@@ -68,22 +71,18 @@ while True:
     success, img = cap.read()
     img = cv2.flip(img, 1)
     img, faces = detector.findFaceMesh(img, draw=False)
-    if winner:
 
-        if onceRound:
-            onceRound = you_win_sound(onceRound)
-            you_win_text()
-        else:
-            you_win_text()
-            pass
+    if winner:
+        if firstRound:
+            firstRound = you_win_sound()
+        you_win_screen()
 
     if gameOver:
-        if onceRound:
-            onceRound = game_over_sound(onceRound)
-            game_over_screen()
-        else:
-            game_over_screen()
-            pass
+        # winner = True
+        if firstRound:
+            firstRound = game_over_sound()
+        game_over_screen()
+
     else:
         if faces:
             face = faces[0]
@@ -106,14 +105,14 @@ while True:
             # Check if the person is laughing, and reduce the HP scale.
             # If the ratioAvg is more than 10 it's mean that his mouth is open -> laughing.
             if ratioAvg >= 10:
-                i += 2
+                i += 3
                 # Displaying the "Laugh Alert"
                 if winner is False:
-                    cvzone.putTextRect(img, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=4, scale=2, thickness=2)
+                    cvzone.putTextRect(fails, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=5, scale=3,
+                                       thickness=3)
 
                 if (i >= 245) and gameOver is False and winner is False:
                     # In "Game Over" case:
-
                     end = time.time()  # Stop the time for calculate the score.
                     total = round(end - start, 2)
                     total = int(total * 5.3)
@@ -127,17 +126,14 @@ while True:
                 winner = True
 
             # Drawing the HP scale.
-            if(winner == False):
-                cv2.line(img, [50, 50], [300 - i, 50], (0, 0, 255), 27)
-                cvzone.putTextRect(img, f'HP:', (10, 60), scale=2, colorR=(0, 0, 255), offset=4, thickness=2)
-                img = cvzone.overlayPNG(img, name, [7, 390])
+            if not winner:
+                cv2.line(fails, [50, 50], [300 - i, 50], (0, 0, 255), 27)
+                cvzone.putTextRect(fails, f'HP:', (10, 60), scale=2, colorR=(0, 0, 255), offset=4, thickness=3)
+                fails = cvzone.overlayPNG(fails, name, [7, 450])
 
             # Initialization of the resolution and background:
-            img = cv2.resize(img, (720, 480))
-            fails = cv2.resize(fails, (720, 480))
-            imgStack = cvzone.stackImages([fails, img], 2, 1)
+            img = cv2.resize(img, (1280, 720))
+            fails = cv2.resize(fails, (1280, 720))
+            fails[400:720, 820:1280] = cv2.resize(img, (460, 320))
             cv2.imshow("FailsVideo", fails)
-            # img = cvzone.overlayPNG(img, name, [7, 390])
-
-    cv2.imshow("Challenge", img)
     cv2.waitKey(2)
