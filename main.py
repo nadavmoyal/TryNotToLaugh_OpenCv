@@ -4,6 +4,7 @@ import cvzone
 from cvzone.FaceMeshModule import FaceMeshDetector
 import time
 import pygame
+import numpy as np
 from pygame import mixer
 
 # Initialization of the videos and the face detector:
@@ -37,6 +38,7 @@ def you_win_screen():
 def you_win_sound():
     failsAudio.stop()
     lose = mixer.Sound('sources/victory.wav')
+    lose.set_volume(0.2)
     lose.play()
     time.sleep(1)
     YouWinSound = mixer.Sound('sources/youWin.wav')
@@ -62,6 +64,18 @@ def game_over_screen():
     cv2.imshow("FailsVideo", f)
 
 
+def cameraFilter(frame):
+    try:
+        frame.shape[3]
+    except IndexError:
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2BGRA)
+    frame_h, frame_w, frame_c = frame.shape
+    overlay = np.full((frame_h, frame_w, 4), (0, 0, 255, 1), dtype='uint8')
+    cv2.addWeighted(overlay, 1, frame, 1.0, 0, frame)
+    return cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+
+
+
 
 while True:
     # Initializes the face recognition and the fails video.
@@ -78,7 +92,6 @@ while True:
         you_win_screen()
 
     if gameOver:
-        # winner = True
         if firstRound:
             firstRound = game_over_sound()
         game_over_screen()
@@ -105,13 +118,15 @@ while True:
             # Check if the person is laughing, and reduce the HP scale.
             # If the ratioAvg is more than 10 it's mean that his mouth is open -> laughing.
             if ratioAvg >= 10:
-                i += 3
+                i += 5
                 # Displaying the "Laugh Alert"
                 if winner is False:
-                    cvzone.putTextRect(fails, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=5, scale=3,
+                    if i % 2 ==0:
+                        cvzone.putTextRect(fails, f'Laugh Alert', (10, 120), colorR=(0, 0, 255), offset=5, scale=3,
                                        thickness=3)
+                        img = cameraFilter(img)
 
-                if (i >= 245) and gameOver is False and winner is False:
+                if (i >= 240) and gameOver is False and winner is False:
                     # In "Game Over" case:
                     end = time.time()  # Stop the time for calculate the score.
                     total = round(end - start, 2)
@@ -127,8 +142,8 @@ while True:
 
             # Drawing the HP scale.
             if not winner:
-                cv2.line(fails, [50, 50], [300 - i, 50], (0, 0, 255), 27)
-                cvzone.putTextRect(fails, f'HP:', (10, 60), scale=2, colorR=(0, 0, 255), offset=4, thickness=3)
+                cv2.line(fails, [50, 45], [300 - i, 45], (0, 0, 255), 37)
+                cvzone.putTextRect(fails, f'HP:', (10, 60), scale=3, colorR=(0, 0, 255), offset=4, thickness=4)
                 fails = cvzone.overlayPNG(fails, name, [7, 450])
 
             # Initialization of the resolution and background:
