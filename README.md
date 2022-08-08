@@ -25,8 +25,8 @@ So the algorithm finds the moment when the player's mouth is open by a size grea
 And when it reaches a certain distance we know the player is laughing.
 
 ## Game rules:
-1. Do not turn your face away from the screen.\
-2. Do not cover your mouth with your hand.\
+1. Do not turn your face away from the screen.
+2. Do not cover your mouth with your hand.
 3. Try not to smile or laugh.
 
 ## Operating Instructions:
