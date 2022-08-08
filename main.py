@@ -12,6 +12,11 @@ failsCap = cv2.VideoCapture("sources/failsVideo.mp4")
 blue = cv2.VideoCapture("sources/blue.mp4")
 lightBlue = cv2.VideoCapture("sources/light blue.mp4")
 background = cv2.imread("sources/background.jpg", cv2.IMREAD_UNCHANGED)
+homer = cv2.imread("sources/homer.png", cv2.IMREAD_UNCHANGED)
+homerWin = cv2.imread("sources/woo hoo.png", cv2.IMREAD_UNCHANGED)
+laughText = cv2.imread("sources/laughText.png", cv2.IMREAD_UNCHANGED)
+
+
 detector = FaceMeshDetector(maxFaces=1)
 
 # Variables
@@ -24,6 +29,7 @@ gameOver = False
 winner = False
 start = time.time()
 
+
 # Playing the background audio:
 pygame.init()
 pygame.mixer.init()
@@ -33,10 +39,10 @@ failsAudio.play()
 
 # Setting the resolution of the elements
 def screen_resolution():
-    background[72:357, 12:547] = cv2.resize(light_background, (535, 285))
+    background[68:353, 12:547] = cv2.resize(light_background, (535, 285))
     background[74:562, 559:1247] = cv2.resize(fails, (688, 488))
-    background[90:337, 26:534] = cv2.resize(img, (508, 247))
-    background[450:650, 20:520] = cv2.resize(blue_background, (500, 200))
+    background[75:322, 26:534] = cv2.resize(img, (508, 247))
+    background[450:695, 40:540] = cv2.resize(blue_background, (500, 245))
     cv2.imshow("background", background)
 
 
@@ -56,9 +62,10 @@ def laugh_detector_algorithm():
 
 
 # displays "You win" on the screen:
-def you_win_screen():
+def you_win_screen(background):
     screen_resolution()
-    cvzone.putTextRect(background, "You Win", [677, 330], scale=7, thickness=7, offset=13, colorR=(0, 0, 0))
+    background = cvzone.overlayPNG(background, homerWin, [780, 304])
+    cvzone.putTextRect(background, "You Win", [677, 270], scale=7, thickness=7, offset=13, colorR=(0, 0, 0))
     cv2.imshow("background", background)
 
 
@@ -75,10 +82,11 @@ def you_win_sound():
 
 
 # Shows the result when the game is over:
-def game_over_screen():
+def game_over_screen(background):
     screen_resolution()
-    cvzone.putTextRect(background, "Game Over", [633, 280], scale=6, thickness=5, offset=9, colorR=(0, 0, 0))
-    cvzone.putTextRect(background, f'Your Score:{total}', [605, 375], scale=5, thickness=5, offset=9, colorR=(0, 0, 0))
+    background = cvzone.overlayPNG(background, homer, [760, 312])
+    cvzone.putTextRect(background, "Game Over", [640, 200], scale=6, thickness=5, offset=9, colorR=(0, 0, 0))
+    cvzone.putTextRect(background, f'Your Score:{total}', [664, 285], scale=4, thickness=4, offset=9, colorR=(0, 0, 0))
     cv2.imshow("background", background)
 
 
@@ -90,7 +98,6 @@ def game_over_sound():
     time.sleep(1)
     mixer.Sound('sources/gameOverSound.wav').play()
     return False
-
 
 # Running the game:
 while True:
@@ -108,13 +115,14 @@ while True:
     if winner:
         if firstRound:
             firstRound = you_win_sound()
-        you_win_screen()
+        you_win_screen(background)
 
     # In case that the player has lost
     if gameOver:
         if firstRound:
             firstRound = game_over_sound()
-        game_over_screen()
+        game_over_screen(background)
+
 
     else:
         # Displays a green points around the player's mouth
@@ -133,9 +141,10 @@ while True:
 
                 # Displays a white rectangle around the player's screen
                 if winner is False:
-                    cv2.rectangle(light_background, pt1=(20, 27), pt2=(941, 506), color=(255, 255, 255), thickness=12)
+                    cv2.rectangle(light_background, pt1=(20, 6), pt2=(941, 487), color=(255, 255, 255), thickness=12)
+                    blue_background = cvzone.overlayPNG(blue_background, laughText, [90, 200])
 
-                if (i >= 850) and gameOver is False and winner is False:
+                if (i >= 800) and gameOver is False and winner is False:
                     # In "Game Over" case:
                     end = time.time()  # Stop the time for calculate the score.
                     total = round(end - start, 2)  # round the time for calculate the score
@@ -154,9 +163,8 @@ while True:
                     j = i * 0.1
                 else:
                     j = i * 0.3
-                cv2.line(blue_background, [50, 50], [900 - i, 50], (0, 255 - j, i), 100)
+                cv2.line(blue_background, [50, 50], [870 - i, 50], (0, 255 - j, i), 100)
 
             # Show all the elements
             screen_resolution()
-
     cv2.waitKey(2)
