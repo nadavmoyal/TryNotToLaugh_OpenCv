@@ -48,7 +48,8 @@ And when it reaches a certain distance we know the player is laughing.
 ### in case that the player is not laughing: (Pay attention to the points on the mouth)
 ![image](https://user-images.githubusercontent.com/93326335/183423752-ed1b1482-7cc5-467c-8278-31cd2a29f603.png)
 
-### in case that the player is laughing: (Pay attention to the points on the mouth)
+### in case that the player is laughing: (Pay attention to the points on the mouth,to the white rectangle and to the "stop laughing" sign)
+![image](https://user-images.githubusercontent.com/93326335/183424702-ec3fa0ed-eab3-40c2-8e44-822436516232.png)
 
 
 
