@@ -6,16 +6,15 @@ import time
 import pygame
 from pygame import mixer
 
-# Initialization of the videos and the face detector:
+# Initialization of the videos, images and the face detector:
 cap = cv2.VideoCapture(0)
-failsCap = cv2.VideoCapture("sources/failsVideo.mp4")
-blue = cv2.VideoCapture("sources/blue.mp4")
-lightBlue = cv2.VideoCapture("sources/light blue.mp4")
-background = cv2.imread("sources/background.jpg", cv2.IMREAD_UNCHANGED)
-homer = cv2.imread("sources/homer.png", cv2.IMREAD_UNCHANGED)
-homerWin = cv2.imread("sources/woo hoo.png", cv2.IMREAD_UNCHANGED)
-laughText = cv2.imread("sources/laughText.png", cv2.IMREAD_UNCHANGED)
-
+failsCap = cv2.VideoCapture("sources/Videos/failsVideo.mp4")
+blue = cv2.VideoCapture("sources/Videos/blue.mp4")
+lightBlue = cv2.VideoCapture("sources/Videos/light blue.mp4")
+background = cv2.imread("sources/Images/background.jpg", cv2.IMREAD_UNCHANGED)
+homer = cv2.imread("sources/Images/homer.png", cv2.IMREAD_UNCHANGED)
+homerWin = cv2.imread("sources/Images/woo hoo.png", cv2.IMREAD_UNCHANGED)
+laughText = cv2.imread("sources/Images/laughText.png", cv2.IMREAD_UNCHANGED)
 
 detector = FaceMeshDetector(maxFaces=1)
 
@@ -29,11 +28,10 @@ gameOver = False
 winner = False
 start = time.time()
 
-
 # Playing the background audio:
 pygame.init()
 pygame.mixer.init()
-failsAudio = mixer.Sound('sources/failsAudio.wav')
+failsAudio = mixer.Sound('sources/Sounds/failsAudio.wav')
 failsAudio.play()
 
 
@@ -46,7 +44,8 @@ def screen_resolution():
     cv2.imshow("background", background)
 
 
-# laugh detector algorithm
+# Laugh detector algorithm:
+# The algorithm calculates the distance between the mouth points, and returns the ratio of them.
 def laugh_detector_algorithm():
     middle_up = face[13]
     middle_down = face[14]
@@ -72,12 +71,16 @@ def you_win_screen(background):
 # Playing the "You Win" and "Victory" sounds:
 def you_win_sound():
     failsAudio.stop()
-    lose = mixer.Sound('sources/victory.wav')
+    lose = mixer.Sound('sources/Sounds/victory.wav')
     lose.set_volume(0.2)
     lose.play()
     time.sleep(1)
-    win_sound = mixer.Sound('sources/youWin.wav')
+    win_sound = mixer.Sound('sources/Sounds/youWin.wav')
     win_sound.play()
+    time.sleep(1)
+    woohoo_sound = mixer.Sound('sources/Sounds/woohoo sound effect.wav')
+    woohoo_sound.set_volume(0.4)
+    woohoo_sound.play()
     return False
 
 
@@ -93,11 +96,14 @@ def game_over_screen(background):
 # Playing the "you lose" and "game over" sounds:
 def game_over_sound():
     failsAudio.stop()
-    lose = mixer.Sound('sources/LoseSoundEffect.wav')
+    lose = mixer.Sound('sources/Sounds/LoseSoundEffect.wav')
     lose.play()
-    time.sleep(1)
-    mixer.Sound('sources/gameOverSound.wav').play()
+    time.sleep(0.3)
+    mixer.Sound('sources/Sounds/gameOverSound.wav').play()
+    time.sleep(1.6)
+    mixer.Sound('sources/Sounds/Laugh Sound Effect.wav').play()
     return False
+
 
 # Running the game:
 while True:
@@ -157,7 +163,7 @@ while True:
                 winner = True  # End the game.
 
             # Drawing the HP scale.
-            # Variable j is for changing the color of the HP scale
+            # Variable j is for changing the color of the HP scale, from green to red.
             if not winner:
                 if i < 450:
                     j = i * 0.1
