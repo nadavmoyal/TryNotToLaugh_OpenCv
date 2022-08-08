@@ -8,23 +8,28 @@ A computer game based on python opencv
 
 ## Introduction:
 This project is a camera pc game based on python opencv.  
-The project is a self-made project that uses a camera and face recognition technology.
+This project is a self-made project that uses a camera, face recognition technology and "laugh detector" algorithm. 
 
 ## Game description:
 The game simulates the "Try not to laugh!" Challenge.  
-A funny fails video is played on the screen, and the player's goal is not to laugh or smile.  
+A funny video is shown on the screen, and the player's goal is not to laugh or smile.  
 The player has an HP scale, and whenever the player laughs - his HP is reduced accordingly.  
-The calculation of "Is the player laughing?" Is made by an algorithm.  
-The algorithm works in such a way that it calculates the distance ratio of the ends of the player's mouth.  
-When the player starts to smile the distance between the edges of their mouth increases.  
-And when it hits a certain distance we know the player is laughing.  
+The calculation of "Is the player laughing?" Is made by an algorithm.
+If the player was able to watch the whole video to the end - he  won!
+Otherwise he lost the challenge.
+
+### The "Laugh Detector" algorithm:
+The algorithm calculates the relative distance between the player's mouth points.
+In case the player laughs - it means that the distance between the points of his mouth increases.
+So the algorithm finds the moment when the player's mouth is open by a size greater than the fixed average distance.
+And when it reaches a certain distance we know the player is laughing.
 
 ## Operating Instructions:
 1. Download all the files.  
-2. Install "cv2", "cvzone" and "pygame".   
+2. Install `cv2` , `cvzone` and `pygame`:   
 3. Put the files in the same folder.  
 4. In the command line, write the following command:  
-5. "python main.py"  
+5. `python main.py`  or `python3 main.py`
 6. Start playing  ! !  
 
 
