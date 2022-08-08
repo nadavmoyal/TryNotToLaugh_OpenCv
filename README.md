@@ -24,6 +24,11 @@ In case the player laughs - it means that the distance between the points of his
 So the algorithm finds the moment when the player's mouth is open by a size greater than the fixed average distance.
 And when it reaches a certain distance we know the player is laughing.
 
+## Game rules:
+Do not turn your face away from the screen
+Do not cover your mouth with your hand
+Try not to smile or laugh
+
 ## Operating Instructions:
 1. Download all the files.  
 2. Install `cv2` , `cvzone` and `pygame`:   
