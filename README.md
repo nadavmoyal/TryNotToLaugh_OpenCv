@@ -38,7 +38,7 @@ And when it reaches a certain distance we know the player is laughing.
 6. Start playing  ! !  
 
 
-##The game display:
+## The game display:
 ### Game Over screen:
 ![image](https://user-images.githubusercontent.com/93326335/183422904-b212934c-d4dd-4699-8ceb-9fb12f91c5b7.png)
 
