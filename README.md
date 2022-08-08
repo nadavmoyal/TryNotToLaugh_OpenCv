@@ -38,4 +38,19 @@ And when it reaches a certain distance we know the player is laughing.
 6. Start playing  ! !  
 
 
+##The game display:
+### Game Over screen:
+![image](https://user-images.githubusercontent.com/93326335/183422904-b212934c-d4dd-4699-8ceb-9fb12f91c5b7.png)
+
+### You Win screen:
+![image](https://user-images.githubusercontent.com/93326335/183422979-39c3fe28-9e16-4568-8838-e4fcc50351f9.png)
+
+### in case that the player is not laughing: (Pay attention to the points on the mouth)
+![image](https://user-images.githubusercontent.com/93326335/183423752-ed1b1482-7cc5-467c-8278-31cd2a29f603.png)
+
+### in case that the player is laughing: (Pay attention to the points on the mouth)
+
+
+
+ 
 
