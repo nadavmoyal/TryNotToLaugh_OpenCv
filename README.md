@@ -39,6 +39,11 @@ And when it reaches a certain distance we know the player is laughing.
 
 
 ## The game display:
+
+
+https://user-images.githubusercontent.com/93326335/184145119-b3dc133f-2c77-4dd1-bc27-9376044e528f.mp4
+
+
 ### Game Over screen:
 ![image](https://user-images.githubusercontent.com/93326335/184135799-7e6360e1-ceb1-4c0e-86eb-4e57226f37c9.png)
 ### You Win screen:
