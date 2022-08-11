@@ -31,7 +31,7 @@ And when it reaches a certain distance we know the player is laughing.
 
 ## Operating Instructions:
 1. Download all the files.  
-2. Install `cv2` , `cvzone` and `pygame`:   
+2. Install `mediapipe`, `cvzone` and `pygame` (`cv2` should be in `cvzone`):   
 3. Put the files in the same folder.  
 4. In the command line, write the following command:  
 5. `python main.py`  or `python3 main.py`
