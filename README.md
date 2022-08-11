@@ -40,17 +40,13 @@ And when it reaches a certain distance we know the player is laughing.
 
 ## The game display:
 ### Game Over screen:
-![image](https://user-images.githubusercontent.com/93326335/183422904-b212934c-d4dd-4699-8ceb-9fb12f91c5b7.png)
-
+![image](https://user-images.githubusercontent.com/93326335/184135799-7e6360e1-ceb1-4c0e-86eb-4e57226f37c9.png)
 ### You Win screen:
-![image](https://user-images.githubusercontent.com/93326335/183422979-39c3fe28-9e16-4568-8838-e4fcc50351f9.png)
-
+![image](https://user-images.githubusercontent.com/93326335/184135721-987a2e8e-6d7b-4d2b-80e4-654d8593d4f8.png)
 ### in case that the player is not laughing: (Pay attention to the points on the mouth)
-![image](https://user-images.githubusercontent.com/93326335/183423752-ed1b1482-7cc5-467c-8278-31cd2a29f603.png)
-
+![image](https://user-images.githubusercontent.com/93326335/184135770-24094096-3151-4c0e-be92-c71f72d53a01.png)
 ### in case that the player is laughing: (Pay attention to the points on the mouth,to the white rectangle and to the "stop laughing" sign)
-![image](https://user-images.githubusercontent.com/93326335/183424702-ec3fa0ed-eab3-40c2-8e44-822436516232.png)
-
+![image](https://user-images.githubusercontent.com/93326335/184135827-82a27352-ce93-4223-a39d-b1e307210309.png)
 
 
  
