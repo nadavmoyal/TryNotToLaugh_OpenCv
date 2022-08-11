@@ -124,11 +124,10 @@ while True:
         you_win_screen(background)
 
     # In case that the player has lost
-    if gameOver:
-        if firstRound:
-            firstRound = game_over_sound()
-        game_over_screen(background)
-
+    elif gameOver:
+            if firstRound:
+                firstRound = game_over_sound()
+            game_over_screen(background)
 
     else:
         # Displays a green points around the player's mouth
